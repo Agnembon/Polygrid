@@ -1,19 +1,38 @@
 import { Table } from './components/Table';
-import type { TableData } from './types';
+import type { CellValue } from './types';
 
 export const App = () => {
-  const temporalDataExample: TableData[][] = [
-    [{ cellValue: 1 }, { cellValue: 2 }, { cellValue: "POLYGRID-3" }, { cellValue: 4 }, { cellValue: 5 }, { cellValue: 6 }],
-    [{ cellValue: "AGNEMBON-7" }, { cellValue: "HOLA-8" }, { cellValue: 9 }, { cellValue: 10 }, { cellValue: 11 }],
-    [{ cellValue: 12 }, { cellValue: 13 }, { cellValue: "PRUEBA-14" }, { cellValue: 15 }, { cellValue: 16 }],
-    [{ cellValue: 17 }, { cellValue: 18 }, { cellValue: "PRUEBA-19" }, { cellValue: 20 }, { cellValue: 21 }, { cellValue: 22 }],
-    [{ cellValue: 23 }, { cellValue: 24 }, { cellValue: "PRUEBA-25" }, { cellValue: 26 }, { cellValue: 27 }, { cellValue: 28 }],
+  const temporalHeaderDataExample: CellValue[] = [{ value: "HEADER-1" }, { value: "HEADER-2" }, { value: "HEADER-3" }, { value: "HEADER-4" }, { value: "HEADER-5" }, { value: "HEADER-6" }];
+
+  const temporalContentDataExample: CellValue[][] = [
+    [{ value: 1 }, { value: 2 }, { value: "POLYGRID-3" }, { value: 4 }, { value: 5 }, { value: 6 }],
+    [{ value: "AGNEMBON-7" }, { value: "HOLA-8" }, { value: 9 }, { value: 10 }, { value: 11 }],
+    [{ value: 12 }, { value: 13 }, { value: "PRUEBA-14" }, { value: 15 }, { value: 16 }],
+    [{ value: 17 }, { value: 18 }, { value: "PRUEBA-19" }, { value: 20 }, { value: 21 }, { value: 22 }],
+    [{ value: 23 }, { value: 24 }, { value: "PRUEBA-25" }, { value: 26 }, { value: 27 }, { value: 28 }],
   ];
 
   return (
-    <div className="p-4 flex flex-col items-center gap-10 min-h-screen">
-      <h1 className="text-xl font-semibold mb-4">POLYGRID</h1>
-      <Table data={temporalDataExample} />
+    <div className="p-4 flex flex-col items-center gap-30 min-h-screen">
+      <div className="flex flex-col items-center gap-10">
+        <h1 className="text-xl font-semibold mb-4">POLYGRID CON HEADER</h1>
+        <Table key={"polygrid-header"}
+          data={{
+            header: temporalHeaderDataExample,
+            content: temporalContentDataExample
+          }}
+        />
+      </div>
+
+      <div className="flex flex-col items-center gap-10">
+        <h1 className="text-xl font-semibold mb-4">POLYGRID SIN HEADER</h1>
+        <Table key={"polygrid"}
+          data={{
+            header: [],
+            content: temporalContentDataExample
+          }}
+        />
+      </div>
     </div>
   )
 };

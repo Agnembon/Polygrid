@@ -1,5 +1,10 @@
 export interface TableData {
-  cellValue: string | number;
+  header: CellValue[];
+  content: CellValue[][];
+}
+
+export interface CellValue {
+  value: string | number;
 }
 
 export interface CellPosition {

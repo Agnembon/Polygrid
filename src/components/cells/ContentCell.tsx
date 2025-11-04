@@ -1,14 +1,14 @@
-import type { CellPosition } from '@/types';
+import type { CellPosition, CellValue } from '@/types';
 
 interface CellProps {
-  value: string | number; 
+  cellValue: CellValue; 
   position: CellPosition;
   isSelected: boolean;
   onMouseDown: (cell: CellPosition) => void;
   onMouseEnter: (cell: CellPosition) => void;
 }
 
-export const Cell = ({ value, position, isSelected, onMouseDown, onMouseEnter }: CellProps) => (
+export const Cell = ({ cellValue, position, isSelected, onMouseDown, onMouseEnter }: CellProps) => (
   <td
     onMouseDown={() => onMouseDown(position)}
     onMouseEnter={() => onMouseEnter(position)}
@@ -16,6 +16,6 @@ export const Cell = ({ value, position, isSelected, onMouseDown, onMouseEnter }:
       isSelected ? 'bg-blue-200' : 'bg-white hover:bg-gray-100'
     }`}
   >
-    {value}
+    {cellValue.value}
   </td>
 );
