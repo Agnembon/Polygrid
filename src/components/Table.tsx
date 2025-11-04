@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
+import { Cell } from '@/components/Cell.tsx';
 import { SelectionRange } from '@/domain/model/SelectionRange';
-import type { Cell } from '@/domain/vo/Cell';
+import type { CellPosition } from '@/domain/vo/CellPosition.ts';
 
 interface SelectableTableProps {
   rows: number;
@@ -10,17 +11,17 @@ interface SelectableTableProps {
 export const Table = ({ rows, columns }: SelectableTableProps) => {
   const [selection, setSelection] = useState<SelectionRange | null>(null);
   const [isSelecting, setIsSelecting] = useState<boolean>(false);
-  const startRef = useRef<Cell | null>(null);
+  const startRef = useRef<CellPosition | null>(null);
 
-  const handleMouseDown = (cellPosition: Cell) => {
-    startRef.current = cellPosition;
-    setSelection(new SelectionRange(cellPosition, cellPosition));
+  const handleMouseDown = (cell: CellPosition) => {
+    startRef.current = cell;
+    setSelection(new SelectionRange(cell, cell));
     setIsSelecting(true);
   };
 
-  const handleMouseEnter = (cellPosition: Cell) => {
+  const handleMouseEnter = (cell: CellPosition) => {
     if (isSelecting && startRef.current) {
-      setSelection(new SelectionRange(startRef.current, cellPosition));
+      setSelection(new SelectionRange(startRef.current, cell));
     }
   };
 
@@ -30,34 +31,19 @@ export const Table = ({ rows, columns }: SelectableTableProps) => {
   };
 
   return (
-    <div
-      onMouseUp={handleMouseUp}
-      style={{ userSelect: 'none', display: 'inline-block', borderCollapse: 'collapse' }}
-    >
-      <table style={{ borderCollapse: 'collapse' }}>
+    <div onMouseUp={handleMouseUp} className="inline-block select-none">
+      <table className="border-collapse">
         <tbody>
           {Array.from({ length: rows }).map((_, row) => (
             <tr key={row}>
-              {Array.from({ length: columns }).map((_, column) => {
-                const isSelected = selection?.contains({ row, column }) ?? false;
-                return (
-                  <td
-                    key={column}
-                    onMouseDown={() => handleMouseDown({ row, column })}
-                    onMouseEnter={() => handleMouseEnter({ row, column })}
-                    style={{
-                      width: 60,
-                      height: 30,
-                      border: '1px solid #ccc',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                      backgroundColor: isSelected ? '#b3d4fc' : 'white'
-                    }}
-                  >
-                    {row},{column}
-                  </td>
-                );
-              })}
+              {Array.from({ length: columns }).map((_, column) => (
+                <Cell
+                  position={{ row, column }}
+                  isSelected={selection?.contains({ row, column }) ?? false}
+                  onMouseDown={handleMouseDown}
+                  onMouseEnter={handleMouseEnter}
+                />
+              ))}
             </tr>
           ))}
         </tbody>

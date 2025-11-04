@@ -1,12 +1,12 @@
-import type { Cell } from '@/domain/vo/Cell';
+import type { CellPosition } from '@/domain/vo/CellPosition.ts';
 
 export class SelectionRange {
   constructor(
-    public readonly start: Cell,
-    public readonly end: Cell
+    public readonly start: CellPosition,
+    public readonly end: CellPosition
   ) {}
 
-  contains(cell: Cell): boolean {
+  contains(cell: CellPosition): boolean {
     return (
       cell.row >= this.topRow &&
       cell.row <= this.bottomRow &&

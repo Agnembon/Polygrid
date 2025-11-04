@@ -1,4 +1,4 @@
-export interface Cell {
+export interface CellPosition {
   row: number;
   column: number;
 }
