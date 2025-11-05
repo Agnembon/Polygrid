@@ -1,7 +1,13 @@
 version: 2
 
 updates:
-  - package-ecosystem: ""
+  - package-ecosystem: "bun"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+  - package-ecosystem: "bun"
+    directory: "/packages/polytable-react"
+    schedule:
+      interval: "weekly"
+      day: "monday"
