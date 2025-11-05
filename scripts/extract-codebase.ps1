@@ -12,6 +12,6 @@ if (-not $installed) {
     pip install files-to-prompt
 }
 
-python -m files_to_prompt . > codebase.txt
+python -m files_to_prompt . --ignore "bun.lock" > codebase.txt
 
 Write-Output "File generated: codebase.txt"
