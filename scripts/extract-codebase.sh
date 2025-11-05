@@ -11,6 +11,6 @@ if ! pip show files-to-prompt > /dev/null 2>&1; then
   pip install files-to-prompt
 fi
 
-python -m files_to_prompt . > codebase.txt
+python -m files_to_prompt . --ignore "bun.lock" > codebase.txt
 
 echo "File generated: codebase.txt"
