@@ -1,11 +1,11 @@
-export interface TableData {
-  header: CellValue[];
-  content: CellValue[][];
-}
-
 export type CellValue = string | number;
 
-export interface CellPosition {
+export interface CellCoordinates {
   row: number;
   column: number;
+}
+
+export interface Table {
+  header: CellValue[];
+  content: CellValue[][];
 }

@@ -1,37 +1,39 @@
-import {useEffect, useRef, useState} from 'react';
-import type {CellPosition, CellValue, TableData} from "@/types";
-import {SelectionRange} from "../models/SelectionRange.ts";
+import { useEffect, useRef, useState } from "react";
+import type { CellCoordinates, CellValue, Table } from "@/types";
+import { extendSelectionRange, initializeSelectionRange, type SelectionRange } from "@/models/SelectionRange.ts";
+import { computeSelectionBounds, extractValuesWithinSelectionBounds } from "@/models/SelectionBounds.ts";
 
-export const useSelection = (data?: TableData, onSelectionChange?: (data: CellValue[][]) => void) => {
+export function useSelection(table?: Table, onSelection?: (values: CellValue[][]) => void) {
     const [selectionRange, setSelectionRange] = useState<SelectionRange | null>(null);
-    const isSelecting = useRef<boolean>(false);
+    const isSelecting = useRef(false);
 
     useEffect(() => {
-        globalThis.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener("mouseup", handleMouseUp);
 
-        return () => globalThis.removeEventListener('mouseup', handleMouseUp);
-    }, [selectionRange]);
+        return () => window.removeEventListener("mouseup", handleMouseUp);
+    });
 
-    const handleMouseDown = (cell: CellPosition) => {
+    const handleMouseDown = (position: CellCoordinates) => {
         isSelecting.current = true;
-        setSelectionRange(new SelectionRange(cell, cell));
+        setSelectionRange(initializeSelectionRange(position));
     };
 
-    const handleMouseEnter = (cell: CellPosition) => {
+    const handleMouseEnter = (position: CellCoordinates) => {
         if (!isSelecting.current || !selectionRange) return;
 
-        if (selectionRange.withEnd(cell)) {
-            setSelectionRange(new SelectionRange(selectionRange.start, selectionRange.end));
-        }
+        setSelectionRange(extendSelectionRange(selectionRange, position));
     };
 
     const handleMouseUp = () => {
-        if (!isSelecting.current || !selectionRange || !data) return;
+        if (!isSelecting.current || !selectionRange || !table) return;
 
-        isSelecting.current = false
-        const selectedData = selectionRange.getValues(data.content);
-        onSelectionChange?.(selectedData);
+        isSelecting.current = false;
+
+        const selectionBounds = computeSelectionBounds(selectionRange.start, selectionRange.end);
+        const values = extractValuesWithinSelectionBounds(table.content, selectionBounds);
+
+        onSelection?.(values);
     };
 
-    return {selectionRange, handleMouseDown, handleMouseEnter};
-};
+    return { selectionRange, handleMouseDown, handleMouseEnter };
+}
