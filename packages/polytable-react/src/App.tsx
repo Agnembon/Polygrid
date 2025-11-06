@@ -1,6 +1,6 @@
-import {Table} from './components/Table.tsx';
-import type {CellValue} from './types';
-import {useEffect, useState} from "react";
+import { Polytable } from '@/components/Polytable.tsx';
+import type { CellValue } from '@/types';
+import { useEffect, useState } from "react";
 
 export const App = () => {
     const temporalHeaderDataExample: CellValue[] = ['HEADER-1', 'HEADER-2', 'HEADER-3', 'HEADER-4', 'HEADER-5', 'HEADER-6'];
@@ -31,7 +31,7 @@ export const App = () => {
         <div className='p-4 flex flex-col items-center gap-30 min-h-screen'>
             <div className='flex flex-col items-center gap-10'>
                 <h1 className='text-xl font-semibold mb-4'>POLYTABLE CON HEADER</h1>
-                <Table
+                <Polytable
                     key={'polytable-header'}
                     data={{header: temporalHeaderDataExample, content: temporalContentDataExample}}
                     onSelectionChange={setSelectedData1}
@@ -41,7 +41,7 @@ export const App = () => {
 
             <div className='flex flex-col items-center gap-10'>
                 <h1 className='text-xl font-semibold mb-4'>POLYTABLE SIN HEADER</h1>
-                <Table
+                <Polytable
                     key={'polytable'}
                     data={{header: [], content: temporalContentDataExample}}
                     onSelectionChange={setSelectedData2}
