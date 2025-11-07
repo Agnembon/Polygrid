@@ -6,6 +6,9 @@ export const App = () => {
   const rows: CellValue[][] = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
   return (
-    <Table shape={{ columns, rows }} />
+    <Table
+      shape={{ columns, rows }}
+      onSelectionChange={selection => console.log(selection)}
+    />
   );
 };
