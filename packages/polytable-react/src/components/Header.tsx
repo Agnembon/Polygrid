@@ -2,13 +2,13 @@ import type { CellValue } from "@/types";
 import { HeaderCell } from "@/components/HeaderCell.tsx";
 
 interface HeaderProps {
-  cells: CellValue[];
+  columns: CellValue[];
 }
 
-export const Header = ({ cells }: HeaderProps) => (
+export const Header = ({ columns }: HeaderProps) => (
   <thead>
     <tr>
-      {cells.map((value) => (
+      {columns.map((value) => (
         <HeaderCell value={value} />
       ))}
     </tr>

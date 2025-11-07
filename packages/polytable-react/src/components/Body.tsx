@@ -3,15 +3,15 @@ import { Cell } from "@/components/Cell"
 import type { SelectionRange } from "@/models/SelectionRange"
 
 interface BodyProps {
-  content: CellValue[][]
+  rows: CellValue[][]
   selectionRange: SelectionRange | null
   onMouseDown: (coordinates: CellCoordinates) => void
   onMouseEnter: (coordinates: CellCoordinates) => void
 }
 
-export const Body = ({ content, selectionRange, onMouseDown, onMouseEnter }: BodyProps) => (
+export const Body = ({ rows, selectionRange, onMouseDown, onMouseEnter }: BodyProps) => (
   <tbody>
-    {content.map((row, rowIndex) => (
+    {rows.map((row, rowIndex) => (
       <tr>
         {row.map((value, columnIndex) => {
           const coordinates = { row: rowIndex, column: columnIndex }

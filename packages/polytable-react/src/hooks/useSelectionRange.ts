@@ -1,28 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import type { CellCoordinates, CellValue, TableDefinition } from "@/types";
+import type { CellCoordinates, CellValue } from "@/types";
 import { extractValuesWithinSelectionBounds } from "@/models/SelectionBounds.ts";
 import { SelectionRange } from "@/models/SelectionRange.ts";
 
-export function useSelection(table?: TableDefinition, onSelection?: (values: CellValue[][]) => void) {
+export const useSelectionRange = (body?: CellValue[][], onSelection?: (values: CellValue[][]) => void) => {
   const [selectionRange, setSelectionRange] = useState<SelectionRange | null>(null);
   const isSelecting = useRef(false);
 
   useEffect(() => {
-    const onMouseUp = () => {
-      if (!isSelecting.current || !selectionRange || !table) {
+    const handleMouseUp = () => {
+      if (!isSelecting.current || !selectionRange || !body) {
         return;
       }
 
       isSelecting.current = false;
 
       const selectionBounds = selectionRange.selectionBounds();
-      const values = extractValuesWithinSelectionBounds(table.content, selectionBounds);
+      const values = extractValuesWithinSelectionBounds(body, selectionBounds);
 
       onSelection?.(values);
-    }
+    };
 
-    window.addEventListener("mouseup", onMouseUp)
-    return () => window.removeEventListener("mouseup", onMouseUp)
+    window.addEventListener("mouseup", handleMouseUp)
+    return () => window.removeEventListener("mouseup", handleMouseUp)
   });
 
   const handleMouseDown = (position: CellCoordinates) => {

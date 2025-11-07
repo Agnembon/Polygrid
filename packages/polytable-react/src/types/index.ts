@@ -5,7 +5,7 @@ export interface CellCoordinates {
   column: number;
 }
 
-export interface TableDefinition {
-  header: CellValue[];
-  content: CellValue[][];
+export interface TableShape {
+  columns: CellValue[];
+  rows: CellValue[][];
 }

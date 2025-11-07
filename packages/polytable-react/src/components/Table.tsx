@@ -1,21 +1,21 @@
-import type { CellValue, TableDefinition } from "@/types";
-import { useSelection } from "@/hooks/useSelection";
+import type { CellValue, TableShape } from "@/types";
+import { useSelectionRange } from "@/hooks/useSelectionRange.ts";
 import { Body } from "@/components/Body.tsx";
 import { Header } from "@/components/Header.tsx";
 
-interface TableProps {
-  table: TableDefinition;
+interface Table {
+  shape: TableShape;
   onSelectionChange?: (selectedCells: CellValue[][]) => void;
 }
 
-export const Table = ({ table, onSelectionChange }: TableProps) => {
-  const { selectionRange, handleMouseDown, handleMouseEnter } = useSelection(table, onSelectionChange);
+export const Table = ({ shape, onSelectionChange }: Table) => {
+  const { selectionRange, handleMouseDown, handleMouseEnter } = useSelectionRange(shape.rows, onSelectionChange);
 
   return (
     <table className="border-collapse rounded-md">
-      <Header cells={table.header} />
+      <Header columns={shape.columns} />
       <Body
-        content={table.content}
+        rows={shape.rows}
         selectionRange={selectionRange}
         onMouseDown={handleMouseDown}
         onMouseEnter={handleMouseEnter}
