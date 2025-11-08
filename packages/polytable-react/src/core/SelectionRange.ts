@@ -1,4 +1,4 @@
-import type { CellCoordinates } from "@/core/types";
+import type { CellCoordinates, CellValue } from "@/core/types";
 import type { SelectionBounds } from "@/core/SelectionBounds.ts";
 
 export class SelectionRange {
@@ -9,17 +9,8 @@ export class SelectionRange {
     return new SelectionRange(this.start, end);
   }
 
-  selectionBounds(): SelectionBounds {
-    return {
-      top: Math.min(this.start.row, this.end.row),
-      bottom: Math.max(this.start.row, this.end.row),
-      left: Math.min(this.start.column, this.end.column),
-      right: Math.max(this.start.column, this.end.column)
-    };
-  }
-
   contains(cell: CellCoordinates): boolean {
-    const selectionBounds = this.selectionBounds();
+    const selectionBounds = this.selectionBounds;
 
     return (
       cell.row >= selectionBounds.top &&
@@ -27,6 +18,29 @@ export class SelectionRange {
       cell.column >= selectionBounds.left &&
       cell.column <= selectionBounds.right
     );
+  }
+
+  pick(rows: CellValue[][]): CellValue[][] {
+    const { top, bottom, left, right } = this.selectionBounds;
+    const values: CellValue[][] = [];
+
+    for (let rowIndex = top; rowIndex <= bottom; rowIndex++) {
+      const row = rows[rowIndex];
+      if (!row) continue;
+
+      values.push(row.slice(left, right + 1));
+    }
+
+    return values;
+  }
+
+  get selectionBounds(): SelectionBounds {
+    return {
+      top: Math.min(this.start.row, this.end.row),
+      bottom: Math.max(this.start.row, this.end.row),
+      left: Math.min(this.start.column, this.end.column),
+      right: Math.max(this.start.column, this.end.column)
+    };
   }
 
 }

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import type { CellCoordinates, CellValue } from "@/core/types";
-import { extractValuesWithinSelectionBounds } from "@/core/SelectionBounds.ts";
 import { SelectionRange } from "@/core/SelectionRange.ts";
 
 export const useSelectionRange = (body?: CellValue[][], onSelection?: (values: CellValue[][]) => void) => {
@@ -9,16 +8,10 @@ export const useSelectionRange = (body?: CellValue[][], onSelection?: (values: C
 
   useEffect(() => {
     const handleMouseUp = () => {
-      if (!isSelecting.current || !selectionRange || !body) {
-        return;
-      }
+      if (!isSelecting.current || !selectionRange || !body) return;
 
       isSelecting.current = false;
-
-      const selectionBounds = selectionRange.selectionBounds();
-      const values = extractValuesWithinSelectionBounds(body, selectionBounds);
-
-      onSelection?.(values);
+      onSelection?.(selectionRange.pick(body));
     };
 
     window.addEventListener("mouseup", handleMouseUp)
@@ -31,9 +24,7 @@ export const useSelectionRange = (body?: CellValue[][], onSelection?: (values: C
   }
 
   const handleMouseEnter = (position: CellCoordinates) => {
-    if (!isSelecting.current || !selectionRange) {
-      return;
-    }
+    if (!isSelecting.current || !selectionRange) return;
 
     setSelectionRange(selectionRange.withEnd(position));
   }
