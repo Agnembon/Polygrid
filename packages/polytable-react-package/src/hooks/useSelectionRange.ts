@@ -7,13 +7,6 @@ export const useSelectionRange = (body?: CellValue[][], onSelection?: (values: C
   const isSelecting = useRef(false);
 
   useEffect(() => {
-    const handleMouseUp = () => {
-      if (!isSelecting.current || !selectionRange || !body) return;
-
-      isSelecting.current = false;
-      onSelection?.(selectionRange.pick(body));
-    };
-
     window.addEventListener("mouseup", handleMouseUp)
     return () => window.removeEventListener("mouseup", handleMouseUp)
   });
@@ -28,6 +21,13 @@ export const useSelectionRange = (body?: CellValue[][], onSelection?: (values: C
 
     setSelectionRange(selectionRange.withEnd(position));
   }
+
+  const handleMouseUp = () => {
+    if (!isSelecting.current || !selectionRange || !body) return;
+
+    isSelecting.current = false;
+    onSelection?.(selectionRange.pick(body));
+  };
 
   return { selectionRange, handleMouseDown, handleMouseEnter };
 }
