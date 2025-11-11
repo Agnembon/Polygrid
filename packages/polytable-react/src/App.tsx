@@ -32,7 +32,7 @@ export const App = () => {
             <div className='flex flex-col items-center gap-10'>
                 <h1 className='text-xl font-semibold mb-4'>POLYTABLE CON HEADER</h1>
                 <Polytable
-                    key={'polytable-header'}
+                    id={'polytable-header'}
                     data={{header: temporalHeaderDataExample, content: temporalContentDataExample}}
                     onSelectionChange={setSelectedData1}
                 />
@@ -42,7 +42,7 @@ export const App = () => {
             <div className='flex flex-col items-center gap-10'>
                 <h1 className='text-xl font-semibold mb-4'>POLYTABLE SIN HEADER</h1>
                 <Polytable
-                    key={'polytable'}
+                    id={'polytable'}
                     data={{header: [], content: temporalContentDataExample}}
                     onSelectionChange={setSelectedData2}
                 />
