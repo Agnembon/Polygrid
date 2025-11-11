@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ key, cells }: HeaderProps) => (
-  <thead key={`header-${key}`}>
+  <thead className="bg-indigo-200" key={`header-${key}`}>
     <tr key={`header-cells-${key}`}>
       {cells.map((value: CellValue, index: number) => (
         <HeaderCell key={index} value={value} />

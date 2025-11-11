@@ -14,7 +14,7 @@ export const Table = ({ key, shape, onSelectionChange }: Table) => {
   const { selectionRange, handleMouseDown, handleMouseEnter } = useSelectionRange(shape.rows, onSelectionChange);
 
   return (
-    <table key={key} className="border-collapse rounded-md">
+    <table key={key} className="border-collapse rounded-lg overflow-hidden shadow-sm text-sm text-gray-700">
       <Header key={key} cells={shape.columns} />
       <Body
         key={key}
