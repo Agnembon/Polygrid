@@ -6,19 +6,6 @@ export const useSelectionRange = (body?: CellValue[][], onSelection?: (cells: Ce
   const [selectionRange, setSelectionRange] = useState<SelectionRange | null>(null);
   const isSelecting = useRef(false);
 
-  const handleMouseDown = useCallback((position: CellCoordinates) => {
-    isSelecting.current = true;
-    setSelectionRange(new SelectionRange(position, position));
-  }, []);
-
-  const handleMouseEnter = useCallback((position: CellCoordinates) => {
-    if (!isSelecting.current || !selectionRange) {
-      return;
-    }
-
-    setSelectionRange(selectionRange.withEnd(position));
-  }, [selectionRange]);
-
   const handleMouseUp = useCallback(() => {
     if (!isSelecting.current || !selectionRange || !body) {
       return;
@@ -33,6 +20,19 @@ export const useSelectionRange = (body?: CellValue[][], onSelection?: (cells: Ce
 
     return () => window.removeEventListener("mouseup", handleMouseUp);
   }, [handleMouseUp]);
+
+  const handleMouseDown = useCallback((position: CellCoordinates) => {
+    isSelecting.current = true;
+    setSelectionRange(new SelectionRange(position, position));
+  }, []);
+
+  const handleMouseEnter = useCallback((position: CellCoordinates) => {
+    if (!isSelecting.current || !selectionRange) {
+      return;
+    }
+
+    setSelectionRange(selectionRange.withEnd(position));
+  }, [selectionRange]);
 
   return { selectionRange, handleMouseDown, handleMouseEnter };
 };
